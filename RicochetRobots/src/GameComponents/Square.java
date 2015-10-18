@@ -3,12 +3,13 @@ package GameComponents;
 public class Square{
 	private int row;
 	private int col;
-	private Square[] adjacencies;
+	private TwoTuple[] adjacencies;
+	private TwoTuple[] modAdjacencies;
 	private boolean occ;
 	private boolean target;
 	private boolean isCenter;
 	
-	public Square(int r, int c, Square[] adj, boolean occupied, boolean targ, boolean cent){
+	public Square(int r, int c, TwoTuple[] adj, boolean occupied, boolean targ, boolean cent){
 		this.row = r;
 		this.col = c;
 		this.adjacencies = adj;
@@ -33,12 +34,20 @@ public class Square{
 		this.col = c;
 	}
 	
-	public Square[] getAdjacencies() {
+	public TwoTuple[] getAdjacencies() {
 		return adjacencies;
 	}
 	
-	public void setAdjacencies(Square[] adj){
+	public void setAdjacencies(TwoTuple[] adj) {
 		this.adjacencies = adj;
+	}
+	
+	public TwoTuple[] getModAdjacencies(){
+		return adjacencies;
+	}
+	
+	public void setModAdjacencies(TwoTuple[] adj){
+		this.modAdjacencies = adj;
 	}
 	
 	public boolean getOcc(){
@@ -66,12 +75,10 @@ public class Square{
 	}
 	
 	public String toString(){
-		if(occ){
-			return "1 ";
-		} else if(isCenter){
-			return "\u25A9 ";
+		if(isCenter){
+			return "X ";
 		} else{
-			return "0 ";
+			return "_ ";
 		}
 	}
 	

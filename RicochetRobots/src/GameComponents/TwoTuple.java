@@ -17,4 +17,13 @@ public class TwoTuple {
 	public String toString(){
 		return "("+aValue+","+bValue+")";
 	}
+	
+	public Integer getAValue(){
+		return aValue;
+	}
+	
+	public Integer getBValue(){
+		return bValue;
+	}
+	
 }

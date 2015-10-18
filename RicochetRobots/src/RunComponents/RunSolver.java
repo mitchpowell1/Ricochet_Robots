@@ -12,27 +12,28 @@ import GameComponents.TwoTuple;
 
 public class RunSolver {
 	
-	private static final int boardSize = 16;
+	private static final int BOARD_SIZE = 16;
+	private static final int ROBOT_NUMBER = 4;
 	
-	public static void main(String[] args) throws FileNotFoundException{
+	public static void main(String[] args) throws FileNotFoundException {
 		
-		
-		AdjacencyReader reader = new AdjacencyReader("boardAdjacencies",boardSize);
-		TwoTuple[][][] adjacencyList = reader.Read();
-		Board board = new Board(boardSize);
+		Board board = makeBoard();	
+		board.createRobots(ROBOT_NUMBER);
 		System.out.println(board);
+		System.out.println("Robot 1: " +board.getRobots()[0]);
+		System.out.println(board.getSquareAdjacencies(0,0).toString());
+		
+	}
+	
+	public static Board makeBoard() throws FileNotFoundException{
+		AdjacencyReader reader = new AdjacencyReader("boardAdjacencies",BOARD_SIZE);
+		TwoTuple[][][] adjacencyList = reader.Read();
+		Board board = new Board(BOARD_SIZE);
 		for(int row=0; row< adjacencyList.length; row++){
 			for(int col=0; col<adjacencyList.length; col++){
-				for(TwoTuple tup : adjacencyList[row][col]){
-					if(tup != null){
-						System.out.print(tup);
-					}
-				}
-				//print a comma to seperate square adjacencies
-				System.out.print(", ");
+				board.setSquareAdjacencies(row,col,adjacencyList[row][col]);
 			}
-			System.out.println();
 		}
+		return board;
 	}
-
 }
