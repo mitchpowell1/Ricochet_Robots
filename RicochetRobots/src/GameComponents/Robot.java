@@ -4,6 +4,9 @@ public class Robot {
 	private String color;
 	private TwoTuple location;
 	
+	public Robot(String col){
+		this.color = col;
+	}
 	public Robot(String col, TwoTuple loc){
 		this.color = col;
 		this.location = loc;
@@ -36,7 +39,7 @@ public class Robot {
 	public String getFirstLetter(){
 		return color.substring(0,1);
 	}
-	
+
 	public String toString(){
 		return color + " robot located at row " + location.getAValue()+ ", column " + location.getBValue();
 	}

@@ -42,8 +42,12 @@ public class Square{
 		this.adjacencies = adj;
 	}
 	
+	public void setModAdjacency(int adjNum, TwoTuple newAdj){
+		this.modAdjacencies[adjNum] = newAdj;
+	}
+	
 	public TwoTuple[] getModAdjacencies(){
-		return adjacencies;
+		return modAdjacencies;
 	}
 	
 	public void setModAdjacencies(TwoTuple[] adj){

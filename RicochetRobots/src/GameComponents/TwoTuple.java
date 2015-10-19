@@ -18,8 +18,16 @@ public class TwoTuple {
 		return "("+aValue+","+bValue+")";
 	}
 	
+	public void setAValue(int newA){
+		this.aValue = newA;
+	}
+	
 	public Integer getAValue(){
 		return aValue;
+	}
+	
+	public void setBValue(int newB){
+		this.bValue = newB;
 	}
 	
 	public Integer getBValue(){

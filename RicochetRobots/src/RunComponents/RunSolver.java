@@ -1,5 +1,6 @@
 package RunComponents;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,16 +14,29 @@ import GameComponents.TwoTuple;
 public class RunSolver {
 	
 	private static final int BOARD_SIZE = 16;
-	private static final int ROBOT_NUMBER = 4;
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		Board board = makeBoard();	
-		board.createRobots(ROBOT_NUMBER);
+		board.createRobots();
+		board.revertAdjacencies();
+		GameComponents.Robot bot = board.getRobots()[0];
+		System.out.println(bot.toString());
 		System.out.println(board);
-		System.out.println("Robot 1: " +board.getRobots()[0]);
-		System.out.println(board.getSquareAdjacencies(0,0).toString());
-		
+		for(int i=0; i < 20; i++){
+			board.moveBotUp(bot);
+			System.out.println(bot.toString());
+			System.out.println(board);
+			board.moveBotRight(bot);
+			System.out.println(bot.toString());
+			System.out.println(board);
+			board.moveBotDown(bot);
+			System.out.println(bot.toString());
+			System.out.println(board);
+			board.moveBotLeft(bot);
+			System.out.println(bot.toString());
+			System.out.println(board);
+		}
 	}
 	
 	public static Board makeBoard() throws FileNotFoundException{
