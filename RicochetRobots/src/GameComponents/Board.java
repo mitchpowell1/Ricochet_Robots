@@ -1,5 +1,6 @@
 package GameComponents;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,6 +14,11 @@ import java.util.Random;
  *
  */
 
+/**
+ * A board containing squares, robots and targets
+ * @author Mitch Powell
+ *
+ */
 public class Board {
 
 	private final int size;
@@ -20,11 +26,20 @@ public class Board {
 	private Robot[] robots;
 	
 	
+	/**
+	 * Creates a board of a  particular size
+	 * @param si the size for the board to be
+	 */
 	public Board(int si){
 		this.size = si;
 		squares = generateBoard(si);
 	}
 	
+	/**
+	 * Creates a two dimensional array of squares [row][column]
+	 * @param boardSize the number of squares in a row or a column
+	 * @return the array of squares
+	 */
 	public Square[][] generateBoard(int boardSize){
 		Square[][] board = new Square[boardSize][boardSize];
 		this.robots = new Robot[4];
@@ -40,6 +55,9 @@ public class Board {
 		return board;
 	}
 	
+	/**
+	 * String to be used for concatenation
+	 */
 	public String toString(){
 		String boardString = new String();
 		for(int row = 0; row<size; row++){
@@ -59,16 +77,23 @@ public class Board {
 		return boardString;
 	}
 	
+	/**
+	 * Returns the list of robots currently on the board
+	 * @return
+	 */
 	public Robot[] getRobots(){
 		return robots;
 	}
 	
+	/**
+	 * Creates four robots and places them on the board at random
+	 */
 	public void createRobots(){
 		ArrayList<Robot> robChoices = new ArrayList<Robot>();
-		Robot red = new Robot("Red");
-		Robot blue = new Robot("Blue");
-		Robot yellow = new Robot("Yellow");
-		Robot green = new Robot("Green");
+		Robot red = new Robot(Color.RED,"R");
+		Robot blue = new Robot(Color.BLUE,"B");
+		Robot yellow = new Robot(Color.YELLOW,"Y");
+		Robot green = new Robot(Color.GREEN,"G");
 		robChoices.add(red);
 		robChoices.add(blue);
 		robChoices.add(yellow);
@@ -78,6 +103,11 @@ public class Board {
 		modifyAdjacencies();
 	}
 	
+	/**
+	 * Checks each square in the same row as a robot and changes the modified
+	 * adjacency list of that square if needed
+	 * @param bot the robot whose row is being checked/changed
+	 */
 	public void modRows(Robot bot){
 		int botRow = bot.getRow();
 		int botCol = bot.getCol();
@@ -112,6 +142,11 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Checks each square in the same column of the robot and changes the values of the squares
+	 * modified adjacency list should such a change be necessary.
+	 * @param bot The robot whose column to check
+	 */
 	public void modCols(Robot bot){
 		int botCol = bot.getCol();
 		int botRow = bot.getRow();
@@ -148,9 +183,11 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Goes through and checks/modifies the adjacencies for each square in each row and column of every robot on the board.
+	 */
 	public void modifyAdjacencies(){
 		revertAdjacencies();
-		//for each robot on the board
 		for(Robot bot : robots){
 			modRows(bot);
 			modCols(bot);
@@ -158,6 +195,9 @@ public class Board {
 
 	}
 	
+	/**
+	 * Sets the modified adjacency list of every square equal to its original adjacency list
+	 */
 	public void revertAdjacencies(){
 		for(Square[] row : squares){
 			for(Square col : row){
@@ -166,6 +206,10 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Places four robots on the board at random
+	 * @param robChoices the list of robots to place on the board
+	 */
 	public void placeRobots(ArrayList<Robot> robChoices){
 		int totalBots = 0;
 		while(totalBots < 4){
@@ -180,41 +224,35 @@ public class Board {
 				robots[totalBots] = rob;
 				squares[randRow][randCol].setOcc(true);
 				totalBots+=1;
-				//modifyAdjacencies(robots);
 			}
 		}
+		modifyAdjacencies();
 	}
-	
-	/*public void modifyAdjacencies(Robot[] bots){
-		for(int rob = 0; rob<bots.length; rob++){
-			for(Square square : squares[bots[rob].getRow()]){
-				TwoTuple[] newAdjacency = new TwoTuple[4];
-				for(int adj = 0; adj<4; adj++){
-					//If a square is in the same row as a robot
-					if(square.getAdjacencies()[adj].getAValue() == bots[rob].getRow()){
-						//And the square is to the left of the robot
-						if(square.getCol() < bots[rob].getCol()){
-							//And adjacent to a square to the right of the robot
-							if(square.getAdjacencies()[adj].getBValue() >= bots[rob].getCol()){
-								newAdjacency [adj] = new TwoTuple(bots[rob].getRow(),bots[rob].getCol()-1);
-							}
-						}
-							
-					}
-					square.setModAdjacencies(newAdjacency);
-				}
-			}
-		}
-	}*/
-	
+
+	/**
+	 * Sets the adjacency list for a particular square
+	 * @param row the row value of the square in question
+	 * @param col the column value of the square in question
+	 * @param newadj the list of adjacencies to set the square's adjacency list equal to
+	 */
 	public void setSquareAdjacencies(int row, int col, TwoTuple[] newadj){
 		squares[row][col].setAdjacencies(newadj);
 	}
 	
+	/**
+	 * Returns the Modified adjacency list for a particular square
+	 * @param row the row value of a square
+	 * @param col the column value of a square
+	 * @return the square's modified adjacency list
+	 */
 	public TwoTuple[] getModSquareAdjacencies(int row, int col){
 		return squares[row][col].getModAdjacencies();
 	}
 	
+	/**
+	 * Moves a particular Robot up (North) should be changed to a robot method.
+	 * @param bot the robot to be moved
+	 */
 	public void moveBotUp(Robot bot){
 		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()].getModAdjacencies();
 		for(int i = 0; i<adjacencies.length; i++){
@@ -227,6 +265,10 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Moves a particular Robot down (South). Should be changed to a robot method.
+	 * @param bot the robot to be moved
+	 */
 	public void moveBotDown(Robot bot) {
 		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()].getModAdjacencies();
 		for(int i = 0; i<adjacencies.length; i++){
@@ -239,6 +281,10 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Moves a particular Robot left (West). Should be changed to a robot method.
+	 * @param bot the robot to be moved
+	 */
 	public void moveBotLeft(Robot bot) {
 		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()].getModAdjacencies();
 		for(int i=0; i<adjacencies.length; i++){
@@ -251,6 +297,10 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Moves a particular Robot right (East). Should be changed to a robot method.
+	 * @param bot the robot to be moved
+	 */
 	public void moveBotRight(Robot bot) {
 		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()].getModAdjacencies();
 		for(int i=0; i<adjacencies.length; i++){
