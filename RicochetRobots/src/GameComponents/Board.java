@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /** TODO:
- * 1) Make functions to move robots to adjacent squares
- * 2) Make functions to change relevant adjacencies upon occupation/de-occupation of a square
- * 4) Make some motherfucking solver algorithms
+ * 1) Make functions to move robots to specific adjacent squares
+ * 4) Make some solver algorithms
  *
  * 
  * @author Mitch Powell
