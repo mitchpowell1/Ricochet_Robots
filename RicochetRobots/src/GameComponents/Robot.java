@@ -14,6 +14,7 @@ public class Robot {
 	private String letter;
 	private TwoTuple location;
 	private Board board;
+	private boolean objectBot;
 
 	/**
 	 * Constructs a robot of a particular color
@@ -125,6 +126,10 @@ public class Robot {
 			board.getSquare(getRow(), getCol()).setOcc(true);
 			board.modifyAdjacencies();
 		}
+	}
+	
+	public boolean isObjectBot(){
+		return objectBot;
 	}
 
 }
