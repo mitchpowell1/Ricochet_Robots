@@ -34,7 +34,7 @@ private int size;
 			for(int col=0; col<size; col++){
 				if(fileScanner.hasNext()){
 					String[] squareAdjacencies = fileScanner.next().split(",");
-					if(squareAdjacencies[0].equals("C")){
+					if(squareAdjacencies[0].equals("X")){
 						adjacencies[row][col][0] = new TwoTuple(null,null);
 					} else {
 						for(int k=0; k<squareAdjacencies.length; k++){

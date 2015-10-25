@@ -107,6 +107,9 @@ public class Robot {
 		return letter;
 	}
 
+	public void setBoard(Board b){
+		this.board = b;
+	}
 	/**
 	 * The string to be used for concatenation
 	 */
