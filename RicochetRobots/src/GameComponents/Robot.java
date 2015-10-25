@@ -117,5 +117,14 @@ public class Robot {
 		return letter + " robot located at row " + location.getAValue()
 				+ ", column " + location.getBValue();
 	}
+	
+	public void moveTo(TwoTuple newSquare){
+		if(board.getModSquareAdjacencies(getRow(), getCol()).contains(newSquare)){
+			board.getSquare(getRow(), getCol()).setOcc(false);
+			setLocation(newSquare);
+			board.getSquare(getRow(), getCol()).setOcc(true);
+			board.modifyAdjacencies();
+		}
+	}
 
 }

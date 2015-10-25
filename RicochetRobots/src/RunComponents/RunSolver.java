@@ -36,18 +36,18 @@ public class RunSolver {
 		botList.add(blueBot);
 		botList.add(greenBot);
 		botList.add(yellowBot);
+		for(Robot bot: botList){
+			bot.setBoard(board);
+		}
 		board.placeRobots(botList);
 
 		System.out.println(board);
+		for(int i = 0; i<4; i++){
+			System.out.println(board.getSquare(redBot.getRow(), redBot.getCol()).getModAdjacencies().get(1));
+			redBot.moveTo(board.getSquare(redBot.getRow(),redBot.getCol()).getModAdjacencies().get(1));
+			System.out.println(board.toString());
+		}
 
-		board.moveBotDown(redBot);
-		System.out.println(board.toString());
-		board.moveBotDown(blueBot);
-		System.out.println(board.toString());
-		board.moveBotRight(yellowBot);
-		System.out.println(board.toString());
-		board.moveBotRight(greenBot);
-		System.out.println(board.toString());
 	}
 
 	/**

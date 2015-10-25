@@ -371,5 +371,9 @@ public class Board {
 			}
 		}
 	}
+	
+	public Square getSquare(int row, int col){
+		return squares[row][col];
+	}
 
 }
