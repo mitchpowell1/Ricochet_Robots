@@ -128,6 +128,18 @@ public class Robot {
 		}
 	}
 	
+	/**
+	 * Change the status of the robot as the object Robot.
+	 * @param obj true if the robot is the object Robot (The Robot who needs to reach the target square) false otherwise.
+	 */
+	public void setObjectBot(boolean obj){
+		this.objectBot = obj;
+	}
+	
+	/**
+	 * Returns whether or not the Robot is the Robot which is trying to reach the target square.
+	 * @return true if it is the object robot, false otherwise
+	 */
 	public boolean isObjectBot(){
 		return objectBot;
 	}
