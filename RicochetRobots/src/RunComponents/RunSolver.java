@@ -65,9 +65,17 @@ public class RunSolver {
 		AdjacencyReader reader = new AdjacencyReader(file, board_size);
 		TwoTuple[][][] adjacencyList = reader.Read();
 		Board board = new Board(BOARD_SIZE);
+		//for each row
 		for (int row = 0; row < adjacencyList.length; row++) {
+			// for each square in the row
 			for (int col = 0; col < adjacencyList.length; col++) {
-				board.setSquareAdjacencies(row, col, adjacencyList[row][col]);
+				//for each item in the adjacency list
+				ArrayList<TwoTuple> adjacencies = new ArrayList<TwoTuple>();
+				for(int adj = 0; adj<adjacencyList[row][col].length; adj ++)
+					if(adjacencyList[row][col][adj] != null){
+						adjacencies.add(adjacencyList[row][col][adj]);
+					}
+				board.setSquareAdjacencies(row, col, adjacencies);
 			}
 		}
 		return board;

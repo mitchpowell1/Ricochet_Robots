@@ -128,12 +128,11 @@ public class Board {
 				// if the square is to the left of the robot
 				if (square.getCol() < botCol) {
 					// for each value in the squares adjacency list
-					for (int adj = 0; adj < 4; adj++) {
-						TwoTuple adjacency = square.getModAdjacencies()[adj];
+					for (int adj = 0; adj < square.getModAdjacencies().size(); adj++) {
+						TwoTuple adjacency = square.getModAdjacencies().get(adj);
 						// if the adjacency is not null and the adjacent square
 						// is in the row and is to the right of the robot
-						if ((adjacency != null)
-								&& (adjacency.getAValue() == botRow)
+						if ((adjacency.getAValue() == botRow)
 								&& (adjacency.getBValue() >= botCol)) {
 							// change the adjacency to one square to the left of
 							// the robot
@@ -144,12 +143,11 @@ public class Board {
 					// otherwise, if the square is to the right of the robot
 				} else if (square.getCol() > botCol) {
 					// for every entry in that squares adjacency list
-					for (int adj = 0; adj < 4; adj++) {
-						TwoTuple adjacency = square.getModAdjacencies()[adj];
+					for (int adj = 0; adj < square.getModAdjacencies().size(); adj++) {
+						TwoTuple adjacency = square.getModAdjacencies().get(adj);
 						// if the adjacency is not null and the adjacent square
 						// is in the row and is to the left of the robot
-						if ((adjacency != null)
-								&& (adjacency.getAValue() == botRow)
+						if ((adjacency.getAValue() == botRow)
 								&& (adjacency.getBValue() <= botCol)) {
 							// change the adjacency to one square to the right
 							// of the robot
@@ -180,13 +178,12 @@ public class Board {
 				// if the square is above the robot
 				if (square.getRow() < botRow) {
 					// for each entry in the squares adjacency matrix
-					for (int adj = 0; adj < 4; adj++) {
-						TwoTuple adjacency = square.getModAdjacencies()[adj];
+					for (int adj = 0; adj < square.getModAdjacencies().size(); adj++) {
+						TwoTuple adjacency = square.getModAdjacencies().get(adj);
 						// if the adjacency is not null and the adjacent square
 						// is in the robot's column and the
 						// adjacent square is above the robot
-						if ((adjacency != null)
-								&& (adjacency.getBValue() == botCol)
+						if ((adjacency.getBValue() == botCol)
 								&& (adjacency.getAValue() >= botRow)) {
 							square.setModAdjacency(adj, new TwoTuple(
 									botRow - 1, botCol));
@@ -195,12 +192,11 @@ public class Board {
 					// otherwise if the square is below the robot
 				} else if (square.getRow() > botRow) {
 					// for each adjacency in the square's adjacency list
-					for (int adj = 0; adj < 4; adj++) {
-						TwoTuple adjacency = square.getModAdjacencies()[adj];
+					for (int adj = 0; adj < square.getModAdjacencies().size(); adj++) {
+						TwoTuple adjacency = square.getModAdjacencies().get(adj);
 						// if the adjacency is not null and the adjacent square
-						// is in the robot's columna\ and is below the robot
-						if ((adjacency != null)
-								&& (adjacency.getBValue() == botCol)
+						// is in the robot's column and is below the robot
+						if ((adjacency.getBValue() == botCol)
 								&& (adjacency.getAValue() <= botRow)) {
 							square.setModAdjacency(adj, new TwoTuple(
 									botRow + 1, botCol));
@@ -271,12 +267,12 @@ public class Board {
 	 *            the row value of the square in question
 	 * @param col
 	 *            the column value of the square in question
-	 * @param newadj
+	 * @param adjacencyList
 	 *            the list of adjacencies to set the square's adjacency list
 	 *            equal to
 	 */
-	public void setSquareAdjacencies(int row, int col, TwoTuple[] newadj) {
-		squares[row][col].setAdjacencies(newadj);
+	public void setSquareAdjacencies(int row, int col, ArrayList<TwoTuple> adjacencyList) {
+		squares[row][col].setAdjacencies(adjacencyList);
 	}
 
 	/**
@@ -288,7 +284,7 @@ public class Board {
 	 *            the column value of a square
 	 * @return the square's modified adjacency list
 	 */
-	public TwoTuple[] getModSquareAdjacencies(int row, int col) {
+	public ArrayList<TwoTuple> getModSquareAdjacencies(int row, int col) {
 		return squares[row][col].getModAdjacencies();
 	}
 
@@ -299,15 +295,14 @@ public class Board {
 	 *            the robot to be moved
 	 */
 	public void moveBotUp(Robot bot) {
-		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()]
+		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
 				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.length; i++) {
-			if ((adjacencies[i] != null)
-					&& (adjacencies[i].getBValue() == bot.getCol())
-					&& (adjacencies[i].getAValue() < bot.getRow())) {
+		for (int i = 0; i < adjacencies.size(); i++) {
+			if ((adjacencies.get(i).getBValue() == bot.getCol())
+					&& (adjacencies.get(i).getAValue() < bot.getRow())) {
 				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies[i]);
-				squares[adjacencies[i].getAValue()][adjacencies[i].getBValue()]
+				bot.setLocation(adjacencies.get(i));
+				squares[adjacencies.get(i).getAValue()][adjacencies.get(i).getBValue()]
 						.setOcc(true);
 				modifyAdjacencies();
 			}
@@ -322,14 +317,13 @@ public class Board {
 	 *            the robot to be moved
 	 */
 	public void moveBotDown(Robot bot) {
-		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()]
+		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
 				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.length; i++) {
-			if ((adjacencies[i] != null)
-					&& (adjacencies[i].getBValue() == bot.getCol())
-					&& (adjacencies[i].getAValue() > bot.getRow())) {
+		for (int i = 0; i < adjacencies.size(); i++) {
+			if ((adjacencies.get(i).getBValue() == bot.getCol())
+					&& (adjacencies.get(i).getAValue() > bot.getRow())) {
 				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies[i]);
+				bot.setLocation(adjacencies.get(i));
 				squares[bot.getRow()][bot.getCol()].setOcc(true);
 				modifyAdjacencies();
 			}
@@ -344,14 +338,13 @@ public class Board {
 	 *            the robot to be moved
 	 */
 	public void moveBotLeft(Robot bot) {
-		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()]
+		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
 				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.length; i++) {
-			if ((adjacencies[i] != null)
-					&& (adjacencies[i].getAValue() == bot.getRow())
-					&& (adjacencies[i].getBValue() < bot.getCol())) {
+		for (int i = 0; i < adjacencies.size(); i++) {
+			if ((adjacencies.get(i).getAValue() == bot.getRow())
+					&& (adjacencies.get(i).getBValue() < bot.getCol())) {
 				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies[i]);
+				bot.setLocation(adjacencies.get(i));
 				squares[bot.getRow()][bot.getCol()].setOcc(true);
 				modifyAdjacencies();
 			}
@@ -366,14 +359,13 @@ public class Board {
 	 *            the robot to be moved
 	 */
 	public void moveBotRight(Robot bot) {
-		TwoTuple[] adjacencies = squares[bot.getRow()][bot.getCol()]
+		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
 				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.length; i++) {
-			if ((adjacencies[i] != null)
-					&& (adjacencies[i].getAValue() == bot.getRow())
-					&& (adjacencies[i].getBValue() > bot.getCol())) {
+		for (int i = 0; i < adjacencies.size(); i++) {
+			if ((adjacencies.get(i).getAValue() == bot.getRow())
+					&& (adjacencies.get(i).getBValue() > bot.getCol())) {
 				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies[i]);
+				bot.setLocation(adjacencies.get(i));
 				squares[bot.getRow()][bot.getCol()].setOcc(true);
 				modifyAdjacencies();
 			}

@@ -1,5 +1,7 @@
 package GameComponents;
 
+import java.util.ArrayList;
+
 /***
  * An instance of the square class corresponds to a single square on the board.
  * A square has row and column data, as well as an initial list of adjacencies
@@ -14,8 +16,8 @@ package GameComponents;
 public class Square {
 	private int row;
 	private int col;
-	private TwoTuple[] adjacencies;
-	private TwoTuple[] modAdjacencies;
+	private ArrayList<TwoTuple> adjacencies;
+	private ArrayList<TwoTuple> modAdjacencies = new ArrayList<TwoTuple>();
 	private boolean occ;
 	private boolean target;
 	private boolean isCenter;
@@ -37,7 +39,7 @@ public class Square {
 	 * @param cent
 	 *            the status of the square as a center piece on the board.
 	 */
-	public Square(int r, int c, TwoTuple[] adj, boolean occupied, boolean targ,
+	public Square(int r, int c, ArrayList<TwoTuple> adj, boolean occupied, boolean targ,
 			boolean cent) {
 		this.row = r;
 		this.col = c;
@@ -92,7 +94,7 @@ public class Square {
 	 * 
 	 * @return the initial list of adjacencies for the square
 	 */
-	public TwoTuple[] getAdjacencies() {
+	public ArrayList<TwoTuple> getAdjacencies() {
 		return adjacencies;
 	}
 
@@ -102,7 +104,7 @@ public class Square {
 	 * @param adj
 	 *            the list of adjacencies for the square.
 	 */
-	public void setAdjacencies(TwoTuple[] adj) {
+	public void setAdjacencies(ArrayList<TwoTuple> adj) {
 		this.adjacencies = adj;
 	}
 
@@ -116,7 +118,7 @@ public class Square {
 	 *            modified adjacency list
 	 */
 	public void setModAdjacency(int adjNum, TwoTuple newAdj) {
-		this.modAdjacencies[adjNum] = newAdj;
+		this.modAdjacencies.set(adjNum, newAdj);
 	}
 
 	/**
@@ -124,7 +126,7 @@ public class Square {
 	 * 
 	 * @return the modified list of adjacencies
 	 */
-	public TwoTuple[] getModAdjacencies() {
+	public ArrayList<TwoTuple> getModAdjacencies() {
 		return modAdjacencies;
 	}
 
@@ -134,8 +136,12 @@ public class Square {
 	 * @param adj
 	 *            the list of modified adjacencies for the square
 	 */
-	public void setModAdjacencies(TwoTuple[] adj) {
-		this.modAdjacencies = adj.clone();
+	public void setModAdjacencies(ArrayList<TwoTuple> adj) {
+		modAdjacencies = new ArrayList<TwoTuple>();
+		for(int i = 0; i < adj.size(); i++){
+			modAdjacencies.add(adj.get(i));
+		}
+		//this.modAdjacencies = adj.clone();
 	}
 
 	/**
