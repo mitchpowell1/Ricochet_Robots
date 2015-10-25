@@ -2,6 +2,7 @@ package GameComponents;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /** TODO:
@@ -372,8 +373,31 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Returns a square at a particular row and column
+	 * @param row the row of the square in question
+	 * @param col the column of the square in question
+	 * @return the square residing at the row and column value provided
+	 */
 	public Square getSquare(int row, int col){
 		return squares[row][col];
 	}
 
+	public String getState(){
+		String stateString = new String();
+		ArrayList<String> botStrings = new ArrayList<String>();
+		for(int i = 0; i<robots.length; i++){
+			if(robots[i].isObjectBot()){
+				String botSquare = Integer.toHexString(robots[i].getRow()) + Integer.toHexString(robots[i].getCol());
+				stateString += botSquare.toUpperCase();
+			} else {
+				botStrings.add(Integer.toHexString(robots[i].getRow()) + Integer.toHexString(robots[i].getCol()));
+			}
+		}
+		Collections.sort(botStrings);
+		for(int i=0; i<botStrings.size(); i++){
+			stateString += botStrings.get(i).toUpperCase();
+		}
+		return stateString;
+	}
 }

@@ -31,6 +31,7 @@ public class RunSolver {
 		Robot blueBot = new Robot(java.awt.Color.BLUE, "B");
 		Robot greenBot = new Robot(java.awt.Color.GREEN, "G");
 		Robot yellowBot = new Robot(java.awt.Color.YELLOW, "Y");
+		redBot.setObjectBot(true);
 		ArrayList<Robot> botList = new ArrayList<Robot>();
 		botList.add(redBot);
 		botList.add(blueBot);
@@ -41,13 +42,19 @@ public class RunSolver {
 		}
 		board.placeRobots(botList);
 
+		System.out.println("Original: ");
 		System.out.println(board);
-		for(int i = 0; i<4; i++){
-			System.out.println(board.getSquare(redBot.getRow(), redBot.getCol()).getModAdjacencies().get(1));
-			redBot.moveTo(board.getSquare(redBot.getRow(),redBot.getCol()).getModAdjacencies().get(1));
-			System.out.println(board.toString());
-		}
-
+		System.out.println("State: "+board.getState());
+		System.out.println();
+		board.moveBotLeft(redBot);
+		String originalState = board.getState();
+		board.moveBotRight(redBot);
+		System.out.println(board);
+		System.out.println("State: "+board.getState());
+		board.moveBotLeft(redBot);
+		System.out.println(board);
+		System.out.println("State: "+board.getState());
+		System.out.println(board.getState().equals(originalState));
 	}
 
 	/**
