@@ -119,10 +119,10 @@ public class Robot {
 				+ ", column " + location.getBValue();
 	}
 	
-	public void moveTo(TwoTuple newSquare){
-		if(board.getModSquareAdjacencies(getRow(), getCol()).contains(newSquare)){
+	public void moveTo(TwoTuple square){
+		if(board.getModSquareAdjacencies(getRow(), getCol()).contains(square)){
 			board.getSquare(getRow(), getCol()).setOcc(false);
-			setLocation(newSquare);
+			setLocation(square);
 			board.getSquare(getRow(), getCol()).setOcc(true);
 			board.modifyAdjacencies();
 		}

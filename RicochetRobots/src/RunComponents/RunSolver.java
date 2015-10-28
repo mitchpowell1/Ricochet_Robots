@@ -26,6 +26,8 @@ public class RunSolver {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
+		Runtime runtime = Runtime.getRuntime();
+		long startTime = System.currentTimeMillis();
 		Board board = makeBoard("boardAdjacencies", BOARD_SIZE);
 		Robot redBot = new Robot(java.awt.Color.RED, "R");
 		Robot blueBot = new Robot(java.awt.Color.BLUE, "B");
@@ -41,20 +43,12 @@ public class RunSolver {
 			bot.setBoard(board);
 		}
 		board.placeRobots(botList);
-
-		System.out.println("Original: ");
-		System.out.println(board);
-		System.out.println("State: "+board.getState());
-		System.out.println();
-		board.moveBotLeft(redBot);
-		String originalState = board.getState();
-		board.moveBotRight(redBot);
-		System.out.println(board);
-		System.out.println("State: "+board.getState());
-		board.moveBotLeft(redBot);
-		System.out.println(board);
-		System.out.println("State: "+board.getState());
-		System.out.println(board.getState().equals(originalState));
+		board.pickRandTargetSquare();
+		System.out.println(board.getTarget());
+		BreadthFirstSolver bfs = new BreadthFirstSolver(board,botList);
+		bfs.solve();
+		long endTime = System.currentTimeMillis();
+		System.out.println("Time elapsed: "+(endTime-startTime)+" milliseconds");
 	}
 
 	/**

@@ -25,6 +25,7 @@ public class Board {
 	private final int size;
 	private Square[][] squares;
 	private Robot[] robots;
+	private Square targetSquare;
 
 	/**
 	 * Creates a board of a particular size
@@ -62,6 +63,20 @@ public class Board {
 		return board;
 	}
 
+	public void pickRandTargetSquare(){
+		Random gen = new Random();
+		Square[] targChoices = {
+				squares[1][4],squares[1][13],squares[2][1],squares[2][9],squares[3][6],
+				squares[5][14],squares[6][3],squares[6][11],squares[8][5],squares[9][1],
+				squares[9][14],squares[10][4],squares[10][8],squares[11][13],squares[13][5],
+				squares[13][10],squares[14][3]};
+		targetSquare = targChoices[gen.nextInt(targChoices.length)];
+	}
+	
+	public String getTarget(){
+		return (Integer.toHexString(targetSquare.getRow())+Integer.toHexString(targetSquare.getCol())).toUpperCase();
+	}
+	
 	/**
 	 * String to be used for concatenation
 	 */
@@ -240,7 +255,11 @@ public class Board {
 	 * @param robChoices
 	 *            the list of robots to place on the board
 	 */
-	public void placeRobots(ArrayList<Robot> robChoices) {
+	public void placeRobots(ArrayList<Robot> bots) {
+		ArrayList<Robot> robChoices = new ArrayList<Robot>();
+		for(Robot bot: bots){
+			robChoices.add(bot);
+		}
 		int totalBots = 0;
 		while (totalBots < 4) {
 			Random rand = new Random();
@@ -383,6 +402,28 @@ public class Board {
 		return squares[row][col];
 	}
 
+	public void removeBots(){
+		revertAdjacencies();
+		for(Square[] sqRow: squares){
+			for(Square sq: sqRow){
+				if(sq.getOcc()){
+					sq.setOcc(false);
+				}
+			}
+		}
+		for(Robot bot: robots){
+			bot.setLocation(null);
+		}
+	}
+	
+	public void placeBot(String loc, Robot bot){
+		int row = Integer.parseInt(loc.substring(0, 1),16);
+		int col = Integer.parseInt(loc.substring(1,2),16);
+		bot.setLocation(new TwoTuple(row,col));
+		squares[row][col].setOcc(true);
+		//modifyAdjacencies();
+	}
+	
 	public String getState(){
 		String stateString = new String();
 		ArrayList<String> botStrings = new ArrayList<String>();
