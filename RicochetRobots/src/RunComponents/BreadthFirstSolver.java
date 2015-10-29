@@ -99,11 +99,16 @@ public class BreadthFirstSolver {
 		visitedStates.add(board.getState());
 		BoardState originalState = new BoardState(board.getState(),null);
 		LinkedList<BoardState> moveQueue = new LinkedList<BoardState>();
+		outermost:
 		for(Robot bot : robots){
 			Square square = board.getSquare(bot.getRow(), bot.getCol());
 			TwoTuple origSquare = new TwoTuple(square.getRow(),square.getCol());
 			for(int i=0; i<square.getModAdjacencies().size(); i++){
 				bot.moveTo(square.getModAdjacencies().get(i));
+				if(checkWin(board.getState())){
+					traceStates(new BoardState(board.getState(),originalState));
+					break outermost;
+				}
 				insertVisited(board.getState());
 				moveQueue.offer(new BoardState(board.getState(),originalState));
 				bot.moveTo(origSquare);
@@ -141,9 +146,9 @@ public class BreadthFirstSolver {
 						//System.out.println(visitedStates.size());
 						//check if it is a winning state
 						if(checkWin(board.getState())){
-							System.out.println("The game is won");
+							//System.out.println("The game is won");
 							System.out.println("Total visited states: "+visitedStates.size());
-							System.out.println(target);
+							System.out.println("Target Square: "+target+"\n");
 
 							System.out.println("Intermediate States: ");
 							System.out.println();
@@ -160,7 +165,6 @@ public class BreadthFirstSolver {
 				}
 			}
 		}
-		System.out.println(visitedStates.get(0));
 	}
 	
 	/**

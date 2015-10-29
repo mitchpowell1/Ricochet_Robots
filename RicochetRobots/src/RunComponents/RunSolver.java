@@ -47,7 +47,6 @@ public class RunSolver {
 		long startTime = System.currentTimeMillis();
 		bfs.solve();
 		long endTime = System.currentTimeMillis();
-		System.out.println(board.getState());
 		long elapsed = endTime-startTime;
 		System.out.println("Time elapsed: "+elapsed+" milliseconds");
 		System.out.println("Evaluation Speed: "+(long)bfs.getNumVisited()/elapsed+" states per ms");
