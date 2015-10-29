@@ -21,6 +21,12 @@ public class BreadthFirstSolver {
 	private ArrayList<Robot> robots;
 	private ArrayList<String> visitedStates;
 	
+	/**
+	 * Constructor for a BreadthFirstSolver object, whose function is to solve
+	 * a ricochet robots board.
+	 * @param b the board to be solved
+	 * @param r an ArrayList containing the robots on the board
+	 */
 	public BreadthFirstSolver(Board b, ArrayList<Robot> r){
 		this.board = b;
 		robots = new ArrayList<Robot>();
@@ -43,6 +49,11 @@ public class BreadthFirstSolver {
 		}
 	}
 	
+	/**
+	 * Takes a state string and 
+	 * @param state the state string to check against the target square
+	 * @return true if the object robot is on the target square, false otherwise
+	 */
 	public boolean checkWin(String state){
 		if(state.substring(0, 2).equals(target)){
 			return true;
@@ -51,15 +62,27 @@ public class BreadthFirstSolver {
 		}
 	}
 	
+	
+	/**
+	 * Method to trace back the states that lead to the winning solution
+	 * @param state the BoardState object representing the board at the time of the victory
+	 */
 	public void traceStates(BoardState state){
-		if(state.getPrev().equals(null)){
-			System.out.println(state.getCur());
-		} else {
+		if(state.hasPrev()){
 			System.out.println(state.getCur());
 			traceStates(state.getPrev());
+		} else {
+			System.out.println(state.getCur());
 		}
 	}
 	
+	/**
+	 * Method to add a state to the list of visited states.
+	 * Done this way in order to maintain an ordered list of visited states,
+	 * this allows for the binary searching of the list, which makes checking against it
+	 * enormously faster as the visited number of states gets large.
+	 * @param x the new string to be added to the visited list
+	 */
 	public void insertVisited(String x) {
 	    int pos = Collections.binarySearch(visitedStates, x);
 	    if (pos < 0) {
@@ -67,6 +90,10 @@ public class BreadthFirstSolver {
 	    }
 	}
 	
+	/**
+	 * Implements a breadth first search algorithm to generate and evaluate a state tree, where the robot
+	 * of any robot represents a change in state.
+	 */
 	public void solve(){
 		rearrangeBots();
 		visitedStates.add(board.getState());
@@ -83,6 +110,8 @@ public class BreadthFirstSolver {
 			}
 		}
 		//While more states can be explored
+		//This outerloop label is a little lazy on my part (The OOP equivalent of a goto statement)
+		//really I should have created a separate method, and still will if time allows
 		outerloop:
 		while(!moveQueue.isEmpty()){
 			//Evaluate the next board state on the queue
@@ -118,7 +147,7 @@ public class BreadthFirstSolver {
 
 							System.out.println("Intermediate States: ");
 							System.out.println();
-							//traceStates(new BoardState(board.getState(),currentState));
+							traceStates(new BoardState(board.getState(),currentState));
 							System.out.println();
 							break outerloop;
 						//if it is not, add the board state to the queue
@@ -134,6 +163,10 @@ public class BreadthFirstSolver {
 		System.out.println(visitedStates.get(0));
 	}
 	
+	/**
+	 * The number of states visited during BFS algorithm
+	 * @return the number of visited states
+	 */
 	public int getNumVisited(){
 		return visitedStates.size();
 	}

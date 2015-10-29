@@ -92,7 +92,7 @@ public class Board {
 						}
 					}
 				} else if (squares[row][col].equals(targetSquare)){
-					boardString += "- ";
+					boardString += "\u1648 ";
 				} else {
 					boardString += squares[row][col];
 				}

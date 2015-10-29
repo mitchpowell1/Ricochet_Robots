@@ -16,4 +16,12 @@ public class BoardState {
 	public String getCur(){
 		return currentState;
 	}
+	
+	public boolean hasPrev(){
+		if(prevState == null){
+			return false;
+		} else {
+			return true;
+		}
+	}
 }
