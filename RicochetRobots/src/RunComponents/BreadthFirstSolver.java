@@ -79,6 +79,7 @@ public class BreadthFirstSolver {
 			for(int i=0; i<4; i++){
 				board.placeBot(state.getCur().substring(2*i,(2*i)+2), robots.get(i));
 			}
+			System.out.println("Starting State: ");
 			System.out.println(board.toString());
 		}
 	}
