@@ -105,7 +105,11 @@ public class Robot {
 	 * @return The first letter of the color of the robot
 	 */
 	public String getFirstLetter() {
-		return letter;
+		if(objectBot){
+			return "!";
+		} else {
+			return letter;	
+		}
 	}
 
 	public void setBoard(Board b){
@@ -115,17 +119,25 @@ public class Robot {
 	 * The string to be used for concatenation
 	 */
 	public String toString() {
-		return letter + " robot located at row " + location.getAValue()
-				+ ", column " + location.getBValue();
+			return letter + " robot located at row " + location.getAValue()
+					+ ", column " + location.getBValue();
 	}
 	
 	public void moveTo(TwoTuple square){
-		if(board.getModSquareAdjacencies(getRow(), getCol()).contains(square)){
+		board.getSquare(getRow(),getCol()).setOcc(false);
+		setLocation(square);
+		board.getSquare(getRow(),getCol()).setOcc(true);
+		board.modifyAdjacencies();
+		/**if(board.getModSquareAdjacencies(getRow(), getCol()).contains(square)){
+			System.out.println("Bot moved to: "+square.toString());
 			board.getSquare(getRow(), getCol()).setOcc(false);
 			setLocation(square);
+			System.out.println("new location: "+getLocation());
 			board.getSquare(getRow(), getCol()).setOcc(true);
 			board.modifyAdjacencies();
-		}
+		} else {
+			System.out.println("Can't do that");
+		}*/
 	}
 	
 	/**

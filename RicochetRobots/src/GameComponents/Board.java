@@ -91,6 +91,8 @@ public class Board {
 							boardString += robots[rob].getFirstLetter() + " ";
 						}
 					}
+				} else if (squares[row][col].equals(targetSquare)){
+					boardString += "- ";
 				} else {
 					boardString += squares[row][col];
 				}
@@ -140,7 +142,7 @@ public class Board {
 		// for each square in the same row as the robot
 		for (Square square : squares[botRow]) {
 			// if the square is not one of the center squares
-			if (!square.getIsCenter()) {
+			if (!square.getIsCenter() && square.getOcc()) {
 				// if the square is to the left of the robot
 				if (square.getCol() < botCol) {
 					// for each value in the squares adjacency list
@@ -190,7 +192,7 @@ public class Board {
 		for (Square[] row : squares) {
 			Square square = row[botCol];
 			// if the square is not in the center
-			if (!square.getIsCenter()) {
+			if (!square.getIsCenter() && square.getOcc()) {
 				// if the square is above the robot
 				if (square.getRow() < botRow) {
 					// for each entry in the squares adjacency matrix
@@ -242,11 +244,15 @@ public class Board {
 	 * adjacency list
 	 */
 	public void revertAdjacencies() {
-		for (Square[] row : squares) {
+		for(Robot bot : robots){
+			squares[bot.getRow()][bot.getCol()].setModAdjacencies(squares[bot.getRow()][bot.getCol()].getAdjacencies());
+		}
+	}
+		/*for (Square[] row : squares) {
 			for (Square col : row) {
 				col.setModAdjacencies(col.getAdjacencies());
 			}
-		}
+		}*.
 	}
 
 	/**
@@ -308,90 +314,7 @@ public class Board {
 		return squares[row][col].getModAdjacencies();
 	}
 
-	/**
-	 * Moves a particular Robot up (North) should be changed to a robot method.
-	 * 
-	 * @param bot
-	 *            the robot to be moved
-	 */
-	public void moveBotUp(Robot bot) {
-		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
-				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.size(); i++) {
-			if ((adjacencies.get(i).getBValue() == bot.getCol())
-					&& (adjacencies.get(i).getAValue() < bot.getRow())) {
-				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies.get(i));
-				squares[adjacencies.get(i).getAValue()][adjacencies.get(i).getBValue()]
-						.setOcc(true);
-				modifyAdjacencies();
-			}
-		}
-	}
 
-	/**
-	 * Moves a particular Robot down (South). Should be changed to a robot
-	 * method.
-	 * 
-	 * @param bot
-	 *            the robot to be moved
-	 */
-	public void moveBotDown(Robot bot) {
-		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
-				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.size(); i++) {
-			if ((adjacencies.get(i).getBValue() == bot.getCol())
-					&& (adjacencies.get(i).getAValue() > bot.getRow())) {
-				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies.get(i));
-				squares[bot.getRow()][bot.getCol()].setOcc(true);
-				modifyAdjacencies();
-			}
-		}
-	}
-
-	/**
-	 * Moves a particular Robot left (West). Should be changed to a robot
-	 * method.
-	 * 
-	 * @param bot
-	 *            the robot to be moved
-	 */
-	public void moveBotLeft(Robot bot) {
-		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
-				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.size(); i++) {
-			if ((adjacencies.get(i).getAValue() == bot.getRow())
-					&& (adjacencies.get(i).getBValue() < bot.getCol())) {
-				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies.get(i));
-				squares[bot.getRow()][bot.getCol()].setOcc(true);
-				modifyAdjacencies();
-			}
-		}
-	}
-
-	/**
-	 * Moves a particular Robot right (East). Should be changed to a robot
-	 * method.
-	 * 
-	 * @param bot
-	 *            the robot to be moved
-	 */
-	public void moveBotRight(Robot bot) {
-		ArrayList<TwoTuple> adjacencies = squares[bot.getRow()][bot.getCol()]
-				.getModAdjacencies();
-		for (int i = 0; i < adjacencies.size(); i++) {
-			if ((adjacencies.get(i).getAValue() == bot.getRow())
-					&& (adjacencies.get(i).getBValue() > bot.getCol())) {
-				squares[bot.getRow()][bot.getCol()].setOcc(false);
-				bot.setLocation(adjacencies.get(i));
-				squares[bot.getRow()][bot.getCol()].setOcc(true);
-				modifyAdjacencies();
-			}
-		}
-	}
-	
 	/**
 	 * Returns a square at a particular row and column
 	 * @param row the row of the square in question

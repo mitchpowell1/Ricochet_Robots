@@ -44,9 +44,10 @@ public class RunSolver {
 		}
 		board.placeRobots(botList);
 		board.pickRandTargetSquare();
-		System.out.println(board.getTarget());
+		System.out.println(board.toString());
 		BreadthFirstSolver bfs = new BreadthFirstSolver(board,botList);
 		bfs.solve();
+		System.out.println(board.getState());
 		long endTime = System.currentTimeMillis();
 		System.out.println("Time elapsed: "+(endTime-startTime)+" milliseconds");
 	}
