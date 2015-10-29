@@ -118,7 +118,7 @@ public class BreadthFirstSolver {
 
 							System.out.println("Intermediate States: ");
 							System.out.println();
-							traceStates(new BoardState(board.getState(),currentState));
+							//traceStates(new BoardState(board.getState(),currentState));
 							System.out.println();
 							break outerloop;
 						//if it is not, add the board state to the queue
@@ -132,5 +132,9 @@ public class BreadthFirstSolver {
 			}
 		}
 		System.out.println(visitedStates.get(0));
+	}
+	
+	public int getNumVisited(){
+		return visitedStates.size();
 	}
 }
