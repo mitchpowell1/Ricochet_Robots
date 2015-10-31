@@ -20,6 +20,8 @@ public class BreadthFirstSolver {
 	private String target;
 	private ArrayList<Robot> robots;
 	private ArrayList<String> visitedStates;
+	private boolean solved;
+	private ArrayList<String> tracedStates;
 	
 	/**
 	 * Constructor for a BreadthFirstSolver object, whose function is to solve
@@ -35,6 +37,7 @@ public class BreadthFirstSolver {
 			}
 		this.visitedStates = new ArrayList<String>();
 		this.target = board.getTarget();
+		this.tracedStates = new ArrayList<String>();
 		}
 	
 	// Rearranging the robots now saves a lot of operations later on.
@@ -68,19 +71,30 @@ public class BreadthFirstSolver {
 	 * @param state the BoardState object representing the board at the time of the victory
 	 */
 	public void traceStates(BoardState state){
-		board.removeBots();
 		if(state.hasPrev()){
-			for(int i=0; i<4; i++){
+			tracedStates.add(0,state.getCur());
+			/*for(int i=0; i<4; i++){
 				board.placeBot(state.getCur().substring(2*i,(2*i)+2), robots.get(i));
 			}
-			System.out.println(board.toString());
+			System.out.println(board.toString());*/
 			traceStates(state.getPrev());
 		} else {
-			for(int i=0; i<4; i++){
+			tracedStates.add(0,state.getCur());
+			/*for(int i=0; i<4; i++){
 				board.placeBot(state.getCur().substring(2*i,(2*i)+2), robots.get(i));
+			}*/
+			for(int i=0; i<tracedStates.size(); i++){
+				board.removeBots();
+				if(i == 0){
+					System.out.println("* * * * * * Original * * * * * *");
+				} else{
+					System.out.println("* * * * * * Step: "+i+" * * * * * *");
+				}
+				for(int j=0; j<4; j++){
+					board.placeBot(tracedStates.get(i).substring(2*j,(2*j)+2), robots.get(j));
+				}
+				System.out.println(board.toString());
 			}
-			System.out.println("Starting State: ");
-			System.out.println(board.toString());
 		}
 	}
 	
@@ -117,6 +131,7 @@ public class BreadthFirstSolver {
 				for(int i=0; i<square.getModAdjacencies().size(); i++){
 					bot.moveTo(square.getModAdjacencies().get(i));
 					if(checkWin(board.getState())){
+						solved = true;
 						traceStates(new BoardState(board.getState(),originalState));
 						break outermost;
 					}
@@ -129,7 +144,7 @@ public class BreadthFirstSolver {
 			//This outerloop label is a little lazy on my part (The OOP equivalent of a goto statement)
 			//really I should have created a separate method, and still will if time allows
 			outerloop:
-			while(!moveQueue.isEmpty()){
+			while(!moveQueue.isEmpty() && !solved){
 				//Evaluate the next board state on the queue
 				BoardState currentState = moveQueue.poll();
 				String cur = currentState.getCur();

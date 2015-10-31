@@ -42,14 +42,15 @@ public class RunSolver {
 		}
 		board.placeRobots(botList);
 		board.pickRandTargetSquare();
-		System.out.println(board.toString());
+		//System.out.println(board.toString());
 		BreadthFirstSolver bfs = new BreadthFirstSolver(board,botList);
 		long startTime = System.currentTimeMillis();
+		//System.out.println(board.getState());
 		bfs.solve();
 		long endTime = System.currentTimeMillis();
 		long elapsed = endTime-startTime;
 		System.out.println("Time elapsed: "+elapsed+" milliseconds");
-		System.out.println("Evaluation Speed: "+(long)bfs.getNumVisited()/elapsed+" states per ms");
+		System.out.println("Evaluation Speed: "+bfs.getNumVisited()/elapsed+" states per ms");
 	}
 
 	/**
