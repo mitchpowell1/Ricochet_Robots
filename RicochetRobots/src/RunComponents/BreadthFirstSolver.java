@@ -22,22 +22,27 @@ public class BreadthFirstSolver {
 	private ArrayList<String> visitedStates;
 	private boolean solved;
 	private ArrayList<String> tracedStates;
+	private int numSteps;
+	private boolean VERBOSE;
 	
 	/**
 	 * Constructor for a BreadthFirstSolver object, whose function is to solve
 	 * a ricochet robots board.
 	 * @param b the board to be solved
 	 * @param r an ArrayList containing the robots on the board
+	 * @param v verbose output
 	 */
-	public BreadthFirstSolver(Board b, ArrayList<Robot> r){
+	public BreadthFirstSolver(Board b, ArrayList<Robot> r, boolean v){
 		this.board = b;
 		robots = new ArrayList<Robot>();
 		for(Robot bot: r){
 			robots.add(bot);
 			}
+		this.VERBOSE = v;
 		this.visitedStates = new ArrayList<String>();
 		this.target = board.getTarget();
 		this.tracedStates = new ArrayList<String>();
+		this.numSteps = 0;
 		}
 	
 	// Rearranging the robots now saves a lot of operations later on.
@@ -70,34 +75,43 @@ public class BreadthFirstSolver {
 	 * Method to trace back the states that lead to the winning solution
 	 * @param state the BoardState object representing the board at the time of the victory
 	 */
-	public void traceStates(BoardState state){
-		if(state.hasPrev()){
-			tracedStates.add(0,state.getCur());
-			/*for(int i=0; i<4; i++){
-				board.placeBot(state.getCur().substring(2*i,(2*i)+2), robots.get(i));
+	public void traceStates(BoardState state, boolean verbose){
+		if(verbose){
+			if(state.hasPrev()){
+				tracedStates.add(0,state.getCur());
+				/*for(int i=0; i<4; i++){
+					board.placeBot(state.getCur().substring(2*i,(2*i)+2), robots.get(i));
+				}
+				System.out.println(board.toString());*/
+				traceStates(state.getPrev(), true);
+			} else {
+				tracedStates.add(0,state.getCur());
+				numSteps = tracedStates.size();
+				/*for(int i=0; i<4; i++){
+					board.placeBot(state.getCur().substring(2*i,(2*i)+2), robots.get(i));
+				}*/
+				for(int i=0; i<tracedStates.size(); i++){
+					board.removeBots();
+					if(i == 0){
+						System.out.println("* * * * * * Original * * * * * *");
+					} else{
+						System.out.println("* * * * * * Step: "+i+" * * * * * *");
+					}
+					for(int j=0; j<4; j++){
+						board.placeBot(tracedStates.get(i).substring(2*j,(2*j)+2), robots.get(j));
+					}
+					System.out.println(board.toString());
+				}
 			}
-			System.out.println(board.toString());*/
-			traceStates(state.getPrev());
 		} else {
-			tracedStates.add(0,state.getCur());
-			/*for(int i=0; i<4; i++){
-				board.placeBot(state.getCur().substring(2*i,(2*i)+2), robots.get(i));
-			}*/
-			for(int i=0; i<tracedStates.size(); i++){
-				board.removeBots();
-				if(i == 0){
-					System.out.println("* * * * * * Original * * * * * *");
-				} else{
-					System.out.println("* * * * * * Step: "+i+" * * * * * *");
-				}
-				for(int j=0; j<4; j++){
-					board.placeBot(tracedStates.get(i).substring(2*j,(2*j)+2), robots.get(j));
-				}
-				System.out.println(board.toString());
+			if(state.hasPrev()){
+				numSteps += 1;
+				traceStates(state.getPrev(), false);
+			} else {
+				numSteps += 1;
 			}
 		}
 	}
-	
 	/**
 	 * Method to add a state to the list of visited states.
 	 * Done this way in order to maintain an ordered list of visited states,
@@ -120,7 +134,7 @@ public class BreadthFirstSolver {
 		rearrangeBots();
 		visitedStates.add(board.getState());
 		if(checkWin(board.getState())){
-			traceStates(new BoardState(board.getState(),null));
+			traceStates(new BoardState(board.getState(),null), VERBOSE);
 		} else {
 			BoardState originalState = new BoardState(board.getState(),null);
 			LinkedList<BoardState> moveQueue = new LinkedList<BoardState>();
@@ -132,7 +146,7 @@ public class BreadthFirstSolver {
 					bot.moveTo(square.getModAdjacencies().get(i));
 					if(checkWin(board.getState())){
 						solved = true;
-						traceStates(new BoardState(board.getState(),originalState));
+						traceStates(new BoardState(board.getState(),originalState), VERBOSE);
 						break outermost;
 					}
 					insertVisited(board.getState());
@@ -178,7 +192,7 @@ public class BreadthFirstSolver {
 	
 								System.out.println("Intermediate States: ");
 								System.out.println();
-								traceStates(new BoardState(board.getState(),currentState));
+								traceStates(new BoardState(board.getState(),currentState), VERBOSE);
 								System.out.println();
 								break outerloop;
 							//if it is not, add the board state to the queue
@@ -200,5 +214,9 @@ public class BreadthFirstSolver {
 	 */
 	public int getNumVisited(){
 		return visitedStates.size();
+	}
+	
+	public int getNumSteps(){
+		return numSteps;
 	}
 }

@@ -40,17 +40,25 @@ public class RunSolver {
 		for(Robot bot: botList){
 			bot.setBoard(board);
 		}
-		board.placeRobots(botList);
-		board.pickRandTargetSquare();
-		//System.out.println(board.toString());
-		BreadthFirstSolver bfs = new BreadthFirstSolver(board,botList);
-		long startTime = System.currentTimeMillis();
-		//System.out.println(board.getState());
-		bfs.solve();
-		long endTime = System.currentTimeMillis();
-		long elapsed = endTime-startTime;
-		System.out.println("Time elapsed: "+elapsed+" milliseconds");
-		System.out.println("Evaluation Speed: "+bfs.getNumVisited()/elapsed+" states per ms");
+		int max = 0;
+		for(int i = 0; i<20; i++){
+			board.placeRobots(botList);
+			board.pickRandTargetSquare();
+			//System.out.println(board.toString());
+			BreadthFirstSolver bfs = new BreadthFirstSolver(board,botList, false);
+			long startTime = System.currentTimeMillis();
+			//System.out.println(board.getState());
+			bfs.solve();
+			if(bfs.getNumSteps() > max){
+				max = bfs.getNumSteps();
+			}
+			long endTime = System.currentTimeMillis();
+			long elapsed = endTime-startTime;
+			System.out.println("Time elapsed: "+elapsed+" milliseconds");
+			//System.out.println("Evaluation Speed: "+bfs.getNumVisited()/elapsed+" states per ms");
+		}
+		System.out.println("Maximum number of steps : " + max);
+
 	}
 
 	/**
