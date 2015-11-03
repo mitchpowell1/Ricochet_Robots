@@ -1,0 +1,31 @@
+Maximum number of steps: 15
+Maximum time in milliseconds: 107776
+Maximum visited states: 2740443
+Average number of moves: 6.3112
+Average time in milliseconds: 956.653275
+Average visited states: 47832.720775
+Solutions with 0 steps: 133
+Solutions with 1 steps: 1642
+Solutions with 2 steps: 1196
+Solutions with 3 steps: 1742
+Solutions with 4 steps: 3421
+Solutions with 5 steps: 5582
+Solutions with 6 steps: 6932
+Solutions with 7 steps: 6886
+Solutions with 8 steps: 5492
+Solutions with 9 steps: 3747
+Solutions with 10 steps: 1967
+Solutions with 11 steps: 821
+Solutions with 12 steps: 293
+Solutions with 13 steps: 123
+Solutions with 14 steps: 20
+Solutions with 15 steps: 3
+Solutions with 16 steps: 0
+Solutions with 17 steps: 0
+Solutions with 18 steps: 0
+Solutions with 19 steps: 0
+Solutions with 20 steps: 0
+Solutions with 21 steps: 0
+Solutions with 22 steps: 0
+Solutions with 23 steps: 0
+Solutions with 24 steps: 0
