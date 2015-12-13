@@ -1,0 +1,28 @@
+#### Statistics are based on the results of a 1000 run trial ####
+- Maximum number of steps required: 15
+- Maximum time required: 
+- Average number of steps required:
+- Average time required:
+- Number of 1 step solutions:
+- Number of 2 step solutions:
+- Number of 3 step solutions:
+- Number of 4 step solutions:
+- Number of 5 step solutions:
+- Number of 6 step solutions:
+- Number of 7 step solutions:
+- Number of 8 step solutions:
+- Number of 9 step solutions:
+- Number of 10 step solutions:
+- Number of 11 step solutions:
+- Number of 12 step solutions:
+- Number of 13 step solutions:
+- Number of 14 step solutions:
+- Number of 15 step solutions:
+- Number of 16 step solutions:
+- Number of 17 step solutions:
+- Number of 18 step solutions:
+- Number of 19 step solutions:
+- Number of 20 step solutions:
+- Number of 21 step solutions:
+- Number of 22 step solutions:
+- Number of 23 step solutions: 
